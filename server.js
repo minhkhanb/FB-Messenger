@@ -99,6 +99,7 @@ function sendTextMessage(recipientId, messageText) {
 }
 
 function callSendAPI(messageData) {
+    messageData = 'message cua tui';
     request({
         uri: 'https://graph.facebook.com/v2.6/me/messages',
         qs: { access_token: 'EAADIgIMnNZBMBAMXQDAxMjb306AmvuuxhBbdgc0MCyatZC9szPFhbMY1CeM64Ssdsu8D9fS92E68LxZBpmRcSRp7j1Fs9hjUVuK6CDZAttf42XHqHFmWSXEYQytvcskfk9bSfOFRfB5r4hafKkDioxDrQCbigR2Ts6cYeIbCLwZDZD' },
