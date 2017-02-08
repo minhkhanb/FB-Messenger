@@ -1,7 +1,2 @@
-logs
-*.log
-pids
-node_modules
-.npm
-*.dat
 /.idea
+/node_modules
