@@ -45,7 +45,8 @@ app.post('/webhook', function (req, res) {
         // You must send back a 200, within 20 seconds, to let us know
         // you've successfully received the callback. Otherwise, the request
         // will time out and we will keep trying to resend.
-        res.sendStatus(200);
+        //res.sendStatus(200);
+        res.send(data.entry);
     }
 });
 
@@ -99,7 +100,6 @@ function sendTextMessage(recipientId, messageText) {
 }
 
 function callSendAPI(messageData) {
-    messageData = 'message cua tui';
     request({
         uri: 'https://graph.facebook.com/v2.6/me/messages',
         qs: { access_token: 'EAADIgIMnNZBMBAMXQDAxMjb306AmvuuxhBbdgc0MCyatZC9szPFhbMY1CeM64Ssdsu8D9fS92E68LxZBpmRcSRp7j1Fs9hjUVuK6CDZAttf42XHqHFmWSXEYQytvcskfk9bSfOFRfB5r4hafKkDioxDrQCbigR2Ts6cYeIbCLwZDZD' },
