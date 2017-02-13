@@ -119,7 +119,7 @@ app.post('/webhook', function (req, res) {
     //
     // You must send back a 200, within 20 seconds, to let us know you've 
     // successfully received the callback. Otherwise, the request will time out.
-    //res.sendStatus(200); :todo
+    res.sendStatus(200);
   }
 });
 
@@ -227,7 +227,7 @@ function receivedMessage(event) {
 
   console.log("Received message for user %d and page %d at %d with message:", 
     senderID, recipientID, timeOfMessage);
-  console.log(JSON.stringify(message, null, 2));
+  console.log('messsage---------------------',JSON.stringify(message, null, 2));
 
   var isEcho = message.is_echo;
   var messageId = message.mid;
@@ -313,9 +313,12 @@ function receivedMessage(event) {
 
       default:
         sendTextMessage(senderID, messageText);
+      
     }
   } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received");
+    console.log('attach-------------------------')
+    //sendTextMessage(senderID, "Message with attachment received");
+    sendQuickReply(senderID);
   }
 }
 
@@ -380,6 +383,7 @@ function receivedPostback(event) {
 function receivedMessageRead(event) {
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
+
 
   // All messages before watermark (a timestamp) or sequence have been seen.
   var watermark = event.read.watermark;
@@ -527,7 +531,8 @@ function sendTextMessage(recipientId, messageText) {
   
   var rs = new RiveScript({
   debug_div: "debug",
-  debug: false
+  debug: false,
+  utf8: true
 });
 
  rs.loadFile([
@@ -539,16 +544,19 @@ function on_load_success () {
 
 	// Now to sort the replies!
 	rs.sortReplies();
-	console.log('rs -------------------',rs);
-	var rep = rs.reply("local-user", "Hello, bot!");
-	console.log('rep ', rep);
+	var reply = rs.reply('local user',messageText);
+	if(reply === 'ERR: No Reply Matched') {
+	  reply = 'Try again with other away';
+	}
+	console.log(reply,messageText)
+	
 	
 	var messageData = {
     recipient: {
       id: recipientId
     },
     message: {
-      text: rep,
+      text: reply,
       metadata: "DEVELOPER_DEFINED_METADATA"
     }
   };
